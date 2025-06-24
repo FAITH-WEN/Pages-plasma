@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>等离子体德拜屏蔽原理图解与金属屏蔽类比</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0c1225, #1a2a6c);
+            color: #f0f8ff;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .header-content {
+            background: rgba(30, 45, 90, 0.7);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 5, 30, 0.5);
+            border: 1px solid rgba(80, 130, 255, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 15px rgba(0, 120, 255, 0.5);
+            color: #a3ccff;
+            background: linear-gradient(to right, #a3ccff, #70b8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 15px auto 0;
+            color: #bbd8ff;
+            font-weight: 300;
+        }
+
+        .concept-explanation {
+            max-width: 900px;
+            margin: 0 auto 40px;
+            background: rgba(25, 40, 80, 0.7);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(70, 130, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 5, 30, 0.4);
+        }
+
+        .explanation-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #7fdbff;
+            font-weight: 600;
+        }
+
+        .content-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .section {
+            background: rgba(30, 40, 70, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 30, 0.4);
+            flex: 1;
+            min-width: 300px;
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, #ff5555, #5555ff);
+        }
+
+        .section-title {
+            font-size: 1.9rem;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #4d8cff;
+            color: #a3ccff;
+            font-weight: 600;
+        }
+
+        .diagram-container {
+            position: relative;
+            height: 320px;
+            margin: 20px 0;
+            background: rgba(15, 25, 55, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(100, 150, 255, 0.2);
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 15px 0 10px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .test-charge-color {
+            background: radial-gradient(circle, #ffcc00, #ff9900);
+        }
+
+        .electron-color {
+            background: radial-gradient(circle, #55aaff, #0066cc);
+        }
+
+        .positive-ion-color {
+            background: radial-gradient(circle, #ff5555, #cc0000);
+        }
+
+        .explanation {
+            margin-top: 20px;
+            background: rgba(35, 50, 100, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #4d8cff;
+        }
+
+        .equation {
+            font-size: 1.3rem;
+            background: rgba(20, 30, 70, 0.7);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            font-family: 'Cambria', 'Times New Roman', serif;
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            color: #ffcc66;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .analogy-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .analogy-card {
+            background: rgba(50, 65, 100, 0.7);
+            border-radius: 12px;
+            padding: 25px;
+            flex: 1;
+            min-width: 300px;
+            box-shadow: 0 10px 30px rgba(0, 5, 30, 0.4);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .analogy-title {
+            font-size: 1.7rem;
+            margin-bottom: 15px;
+            color: #ffcc66;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .comparison {
+            margin: 40px 0;
+            background: rgba(40, 55, 90, 0.6);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 5, 30, 0.4);
+            border: 1px solid rgba(100, 150, 255, 0.2);
+        }
+
+        .comparison-title {
+            font-size: 1.9rem;
+            margin-bottom: 25px;
+            color: #70ddff;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .grid-item {
+            padding: 20px;
+            background: rgba(30, 45, 85, 0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 5, 20, 0.4);
+        }
+
+        .grid-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #7fdbff;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4d8cff;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #bbd8ff;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .key-term {
+            color: #ffcc66;
+            font-weight: 600;
+        }
+
+        .feature-list {
+            padding-left: 25px;
+            margin: 15px 0;
+        }
+
+        .feature-list li {
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 900px) {
+            .content-container, .analogy-section, .comparison-grid {
+                flex-direction: column;
+                grid-template-columns: 1fr;
+            }
+            
+            .section, .analogy-card {
+                min-width: 100%;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+            }
+            
+            .diagram-container {
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>等离子体德拜屏蔽原理</h1>
+                <p class="subtitle">图示解释与金属静电屏蔽的类比说明</p>
+            </div>
+        </header>
+
+        <div class="concept-explanation">
+            <h3 class="explanation-title">基本概念介绍</h3>
+            <p><span class="key-term">德拜屏蔽(Debye Shielding)</span>是等离子体物理学中的一个基本概念，描述了当带电粒子引入等离子体时，周围粒子如何重新分布以屏蔽其电场。德拜长度λ<sub>D</sub>是描述这种屏蔽效果的关键参数。</p>
+            <p>为了帮助理解这个概念，我们可以将其与<span class="key-term">金属导体对静电场的屏蔽</span>进行比较：</p>
+            <p>金属中的自由电子可以自由移动，形成屏蔽层来阻挡外部电场。等离子体中也存在类似机制——轻的电子快速移动，在正离子周围聚集形成屏蔽层。</p>
+        </div>
+
+        <div class="content-container">
+            <div class="section">
+                <h2 class="section-title">等离子体德拜屏蔽</h2>
+                <div class="diagram-container">
+                    <canvas id="plasmaCanvas" width="500" height="300"></canvas>
+                </div>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color test-charge-color"></div>
+                        <span>测试电荷 (+Q)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color electron-color"></div>
+                        <span>电子 (e⁻)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color positive-ion-color"></div>
+                        <span>正离子</span>
+                    </div>
+                </div>
+                <div class="explanation">
+                    <p>在等离子体中，引入一个正测试电荷（+Q）时：</p>
+                    <ul class="feature-list">
+                        <li>电子（e⁻）由于质量小移动速度快，聚集在测试电荷周围</li>
+                        <li>正离子受到排斥而远离测试电荷</li>
+                        <li>形成"电子云"屏蔽层，即鞘层，减弱远处的电场</li>
+                        <li>屏蔽范围由<span class="key-term">德拜长度λ<sub>D</sub></span>决定，即德拜球：</li>
+                    </ul>
+                    <div class="equation">
+                        λ<sub>D</sub> = √(ε₀kT / n<sub>e</sub>e²)
+                    </div>
+                    <p>其中：ε₀ - 真空介电常数, k - 玻尔兹曼常数, T - 温度, n<sub>e</sub> - 电子密度, e - 电子电荷。</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">金属静电屏蔽</h2>
+                <div class="diagram-container">
+                    <canvas id="metalCanvas" width="500" height="300"></canvas>
+                </div>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color test-charge-color"></div>
+                        <span>内部电荷 (+Q)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color electron-color"></div>
+                        <span>自由电子</span>
+                    </div>
+                </div>
+                <div class="explanation">
+                    <p>在金属导体中放入一个正电荷（+Q）时：</p>
+                    <ul class="feature-list">
+                        <li>自由电子在电场作用下重新分布</li>
+                        <li>电子被吸引到正电荷附近的内表面</li>
+                        <li>形成等效的负电荷层实现完全屏蔽</li>
+                        <li>金属腔体外的区域不受内部电荷影响</li>
+                    </ul>
+                    <p><span class="key-term">金属屏蔽是完全的</span>，而等离子体屏蔽是统计性的，受德拜长度限制。</p>
+                    <p>金属的屏蔽效果基于导体内电荷的瞬时重新分布，响应时间极短。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="analogy-section">
+            <div class="analogy-card">
+                <h3 class="analogy-title">等离子体与金属屏蔽的相似性</h3>
+                <ul class="feature-list">
+                    <li>两者都包含可以自由移动的电荷载体（电子）</li>
+                    <li>在扰动电荷附近都形成屏蔽电荷层</li>
+                    <li>屏蔽效果在源附近最强，随距离衰减</li>
+                    <li>屏蔽长度取决于电荷密度（德拜长度 vs 趋肤深度）</li>
+                    <li>都存在特征距离（λ<sub>D</sub>和导体厚度）</li>
+                    <li>都遵循库仑定律的相互作用</li>
+                </ul>
+            </div>
+
+            <div class="analogy-card">
+                <h3 class="analogy-title">等离子体与金属屏蔽的差异</h3>
+                <ul class="feature-list">
+                    <li><span class="key-term">等离子体屏蔽</span>是统计性、非完全的；<span class="key-term">金属屏蔽</span>是完全的</li>
+                    <li>金属屏蔽是瞬时的；等离子体屏蔽需要时间建立</li>
+                    <li>金属只有电子移动；等离子体中离子也参与</li>
+                    <li>金属有固定的边界；等离子体边界模糊</li>
+                    <li>等离子体屏蔽依赖于温度；金属屏蔽与温度无关</li>
+                </ul>
+                <div class="equation">
+                    等离子体屏蔽时间：τ ≈ λ<sub>D</sub>/v<sub>th</sub>
+                </div>
+                <div class="equation">
+                    金属屏蔽时间：τ ≈ σε (极短)
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison">
+            <h3 class="comparison-title">德拜屏蔽与金属屏蔽对比</h3>
+            <div class="comparison-grid">
+                <div class="grid-item">
+                    <h4 class="grid-title">德拜屏蔽 (等离子体)</h4>
+                    <ul class="feature-list">
+                        <li><span class="key-term">机制：</span>热运动驱动的电荷重新分布</li>
+                        <li><span class="key-term">屏蔽范围：</span>德拜长度λ<sub>D</sub></li>
+                        <li><span class="key-term">屏蔽程度：</span>不完全，存在残余场</li>
+                        <li><span class="key-term">响应时间：</span>毫秒-微秒量级</li>
+                        <li><span class="key-term">电场衰减：</span>∝ e⁻ʳ/λ_D / r</li>
+                        <li><span class="key-term">适用性：</span>弱耦合等离子体</li>
+                    </ul>
+                </div>
+                
+                <div class="grid-item">
+                    <h4 class="grid-title">金属屏蔽 (导体)</h4>
+                    <ul class="feature-list">
+                        <li><span class="key-term">机制：</span>漂移驱动的电子重新分布</li>
+                        <li><span class="key-term">屏蔽范围：</span>整个导体</li>
+                        <li><span class="key-term">屏蔽程度：</span>完全(理想导体)</li>
+                        <li><span class="key-term">响应时间：</span>飞秒量级</li>
+                        <li><span class="key-term">电场衰减：</span>腔内电场=0</li>
+                        <li><span class="key-term">适用性：</span>所有良导体</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison" style="margin-top: 30px;">
+            <h3 class="comparison-title">德拜屏蔽的物理意义</h3>
+            <div class="explanation">
+                <p><span class="key-term">德拜长度(λ<sub>D</sub>)</span>是等离子体物理最重要的参数：</p>
+                <ul class="feature-list">
+                    <li>定义了等离子体维持准电中性的空间尺度</li>
+                    <li>确定等离子体性质的下限条件：n<sub>e</sub>λ<sub>D</sub>³ >> 1</li>
+                    <li>区分短程库仑相互作用与长程集体行为</li>
+                    <li>在等离子体振荡中起关键作用：</li>
+                </ul>
+                <div class="equation">
+                    等离子体频率：ω<sub>p</sub> = √(n<sub>e</sub>e²/ε₀m<sub>e</sub>)
+                </div>
+                <div class="equation">
+                    与德拜长度的关系：λ<sub>D</sub>·ω<sub>p</sub> ≈ v<sub>th</sub> (热速度)
+                </div>
+                <p>德拜屏蔽概念在受控核聚变、空间物理、等离子体材料处理等领域至关重要。</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>物理原理图解 | 等离子体物理与电磁学 | 设计理念：通过可视化增强概念理解</p>
+            <p>© 2023 物理可视化设计 | 金属屏蔽 ↔ 等离子体德拜屏蔽原理类比</p>
+        </footer>
+    </div>
+
+    <script>
+        // 绘制等离子体德拜屏蔽图
+        function drawPlasmaDiagram() {
+            const canvas = document.getElementById('plasmaCanvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            // 清空画布
+            ctx.clearRect(0, 0, width, height);
+            
+            // 创建径向渐变背景
+            const bgGradient = ctx.createRadialGradient(width/2, height/2, 50, width/2, height/2, 250);
+            bgGradient.addColorStop(0, 'rgba(90, 100, 200, 0.3)');
+            bgGradient.addColorStop(1, 'rgba(20, 30, 80, 0.5)');
+            ctx.fillStyle = bgGradient;
+            ctx.fillRect(0, 0, width, height);
+            
+            // 绘制测试电荷（中心）
+            ctx.beginPath();
+            ctx.arc(width/2, height/2, 25, 0, Math.PI * 2);
+            const chargeGradient = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, 25);
+            chargeGradient.addColorStop(0, '#ffcc00');
+            chargeGradient.addColorStop(1, '#ff9900');
+            ctx.fillStyle = chargeGradient;
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(255, 220, 50, 0.8)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // 添加电荷符号
+            ctx.font = "bold 18px Arial";
+            ctx.fillStyle = "#000";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("+", width/2, height/2);
+            
+            // 绘制围绕的电子
+            const numElectrons = 35;
+            for (let i = 0; i < numElectrons; i++) {
+                const angle = i * (Math.PI * 2 / numElectrons);
+                // 电子分布不均匀，模拟聚集效果
+                const distance = 40 + Math.random() * 80 * Math.exp(-i/35);
+                const x = width/2 + Math.cos(angle) * distance;
+                const y = height/2 + Math.sin(angle) * distance;
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 8, 0, Math.PI * 2);
+                const electronGradient = ctx.createRadialGradient(x, y, 0, x, y, 8);
+                electronGradient.addColorStop(0, "#5ac");
+                electronGradient.addColorStop(1, "#0066cc");
+                ctx.fillStyle = electronGradient;
+                ctx.fill();
+                
+                // 绘制从电子到中心的连线（虚线）
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(width/2, height/2);
+                ctx.setLineDash([3, 2]);
+                ctx.strokeStyle = 'rgba(80, 150, 255, 0.4)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+                ctx.setLineDash([]);
+                
+                // 电子符号
+                ctx.font = "bold 10px Arial";
+                ctx.fillStyle = "#fff";
+                ctx.fillText("-", x, y);
+            }
+            
+            // 绘制离得更远的正离子
+            const numIons = 25;
+            for (let i = 0; i < numIons; i++) {
+                // 离子分布更均匀，在远处
+                const angle = i * (Math.PI * 2 / numIons) + Math.random() * 0.2;
+                const distance = 100 + Math.random() * 80;
+                const x = width/2 + Math.cos(angle) * distance;
+                const y = height/2 + Math.sin(angle) * distance;
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 12, 0, Math.PI * 2);
+                const ionGradient = ctx.createRadialGradient(x, y, 0, x, y, 12);
+                ionGradient.addColorStop(0, "#f55");
+                ionGradient.addColorStop(1, "#c00");
+                ctx.fillStyle = ionGradient;
+                ctx.fill();
+                
+                // 正离子符号
+                ctx.font = "bold 12px Arial";
+                ctx.fillStyle = "#fff";
+                ctx.fillText("+", x, y);
+                
+                // 绘制从离子指向外部的箭头
+                const vectorLen = 30;
+                const vectorAngle = Math.atan2(y - height/2, x - width/2);
+                const endX = x + Math.cos(vectorAngle) * vectorLen;
+                const endY = y + Math.sin(vectorAngle) * vectorLen;
+                
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(endX, endY);
+                ctx.strokeStyle = 'rgba(255, 80, 80, 0.7)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // 箭头
+                drawArrow(ctx, endX, endY, vectorAngle);
+            }
+            
+            // 绘制屏蔽边界（德拜长度）
+            ctx.beginPath();
+            ctx.arc(width/2, height/2, 100, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(0, 200, 255, 0.7)';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([8, 4]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // 添加标签
+            ctx.font = "bold 14px Arial";
+            ctx.fillStyle = "#7ff";
+            ctx.textAlign = "center";
+            ctx.fillText("德拜屏蔽层边界", width/2, height/2 - 110);
+            ctx.fillText("电子云屏蔽层", width/2, height/2);
+            ctx.fillText("被排斥的正离子", width/2, height/2 + 140);
+        }
+        
+        // 绘制金属屏蔽图
+        function drawMetalDiagram() {
+            const canvas = document.getElementById('metalCanvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            // 清空画布
+            ctx.clearRect(0, 0, width, height);
+            
+            // 绘制金属区域
+            const padding = 40;
+            const metalX = padding;
+            const metalY = padding;
+            const metalWidth = width - padding*2;
+            const metalHeight = height - padding*2;
+            
+            // 金属背景
+            ctx.fillStyle = 'rgba(100, 120, 180, 0.2)';
+            ctx.fillRect(metalX, metalY, metalWidth, metalHeight);
+            
+            // 金属边框
+            ctx.strokeStyle = '#aaa';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(metalX, metalY, metalWidth, metalHeight);
+            
+            // 内部文本
+            ctx.font = "bold 14px Arial";
+            ctx.fillStyle = "#7ff";
+            ctx.textAlign = "center";
+            ctx.fillText("金属导体", width/2, height/2 - 70);
+            ctx.fillText("内部无电场", width/2, height/2);
+            
+            // 绘制内部电荷
+            ctx.beginPath();
+            ctx.arc(width/2, height/2, 25, 0, Math.PI * 2);
+            const chargeGradient = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, 25);
+            chargeGradient.addColorStop(0, '#ffcc00');
+            chargeGradient.addColorStop(1, '#ff9900');
+            ctx.fillStyle = chargeGradient;
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(255, 220, 50, 0.8)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // 添加电荷符号
+            ctx.font = "bold 18px Arial";
+            ctx.fillStyle = "#000";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("+", width/2, height/2);
+            
+            // 绘制金属表面的电子
+            const numElectrons = 24;
+            for (let i = 0; i < numElectrons; i++) {
+                let x, y;
+                
+                // 分布在四个边
+                if (i < 6) {
+                    // 上边
+                    x = metalX + metalWidth/(numElectrons/4)*i + 15;
+                    y = metalY + 5;
+                } else if (i < 12) {
+                    // 右边
+                    x = metalX + metalWidth - 5;
+                    y = metalY + metalHeight/(numElectrons/4)*(i-6) + 15;
+                } else if (i < 18) {
+                    // 下边
+                    x = metalX + metalWidth - metalWidth/(numElectrons/4)*(i-12) - 15;
+                    y = metalY + metalHeight - 5;
+                } else {
+                    // 左边
+                    x = metalX + 5;
+                    y = metalY + metalHeight - metalHeight/(numElectrons/4)*(i-18) - 15;
+                }
+                
+                // 绘制电子
+                ctx.beginPath();
+                ctx.arc(x, y, 8, 0, Math.PI * 2);
+                const electronGradient = ctx.createRadialGradient(x, y, 0, x, y, 8);
+                electronGradient.addColorStop(0, "#5ac");
+                electronGradient.addColorStop(1, "#0066cc");
+                ctx.fillStyle = electronGradient;
+                ctx.fill();
+                
+                // 绘制电子符号
+                ctx.font = "bold 10px Arial";
+                ctx.fillStyle = "#fff";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText("-", x, y);
+                
+                // 绘制从电子指向电荷的虚线
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(width/2, height/2);
+                ctx.setLineDash([3, 2]);
+                ctx.strokeStyle = 'rgba(100, 160, 255, 0.4)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+            
+            // 绘制外部电场
+            const numFieldLines = 12;
+            for (let i = 0; i < numFieldLines; i++) {
+                const angle = i * (Math.PI * 2 / numFieldLines);
+                const startRadius = 50;
+                
+                const startX = width/2 + Math.cos(angle) * startRadius;
+                const startY = height/2 + Math.sin(angle) * startRadius;
+                
+                // 电场线终点（在金属边缘开始）
+                const endRadius = 150;
+                const endX = width/2 + Math.cos(angle) * endRadius;
+                const endY = height/2 + Math.sin(angle) * endRadius;
+                
+                // 绘制电场线
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
+                ctx.strokeStyle = 'rgba(255, 200, 100, 0.7)';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+                
+                // 绘制箭头
+                const arrowAngle = Math.atan2(endY - height/2, endX - width/2);
+                drawArrow(ctx, endX, endY, arrowAngle);
+            }
+            
+            // 添加标签
+            ctx.font = "bold 14px Arial";
+            ctx.fillStyle = "#7ff";
+            ctx.textAlign = "center";
+            ctx.fillText("屏蔽电子", width/2, metalY - 10);
+            ctx.fillText("外部电场", width/2, metalY + metalHeight + 20);
+        }
+        
+        // 绘制箭头
+        function drawArrow(ctx, x, y, angle) {
+            const arrowLength = 8;
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(-arrowLength, -arrowLength/2);
+            ctx.lineTo(-arrowLength, arrowLength/2);
+            ctx.closePath();
+            ctx.fillStyle = ctx.strokeStyle;
+            ctx.fill();
+            
+            ctx.restore();
+        }
+        
+        // 初始化绘制
+        window.onload = function() {
+            drawPlasmaDiagram();
+            drawMetalDiagram();
+        };
+        
+        // 调整画布大小
+        window.onresize = function() {
+            drawPlasmaDiagram();
+            drawMetalDiagram();
+        };
+    </script>
+</body>
+</html>
