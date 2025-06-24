@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>物质四态转化图 - 水</title>
+    <title>物质四态转化图 - 水（3×3布局）</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
@@ -39,48 +45,57 @@
             line-height: 1.6;
         }
         
+        /* 3×3 网格布局 */
         .states-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-            margin-bottom: 60px;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 100px;
+            position: relative;
+            height: 1050px;
         }
         
         .state-card {
             background: rgba(25, 40, 65, 0.7);
             border-radius: 15px;
-            padding: 25px;
+            padding: 20px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s, box-shadow 0.3s;
             position: relative;
             overflow: hidden;
             border: 2px solid transparent;
             backdrop-filter: blur(5px);
+            z-index: 10;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         
         .state-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 15px rgba(79, 195, 247, 0.5);
             border-color: rgba(79, 195, 247, 0.5);
         }
         
         .state-title {
             text-align: center;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
             color: #4fc3f7;
         }
         
         .state-icon {
-            font-size: 3rem;
+            font-size: 2.5rem;
             text-align: center;
-            margin: 20px 0;
+            margin: 10px 0;
         }
         
         .temperature {
             text-align: center;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             padding: 8px;
             border-radius: 20px;
             margin: 10px 0;
@@ -107,24 +122,83 @@
         }
         
         .state-desc {
-            font-size: 1rem;
+            font-size: 0.95rem;
             line-height: 1.6;
-            text-align: justify;
-            margin-top: 20px;
+            text-align: center;
+            margin-top: 15px;
         }
         
-        .transitions {
+        /* 卡片位置 */
+        .ice {
+            grid-column: 1;
+            grid-row: 1;
+        }
+        
+        .water {
+            grid-column: 3;
+            grid-row: 1;
+        }
+        
+        .gas {
+            grid-column: 3;
+            grid-row: 3;
+        }
+        
+        .plasma {
+            grid-column: 1;
+            grid-row: 3;
+        }
+        
+        /* 中心区域用于转化路径 */
+        .transition-center {
+            grid-column: 2;
+            grid-row: 2;
             position: relative;
-            height: 500px;
-            margin-top: 40px;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
+        .transition-center-content {
+            text-align: center;
+            padding: 20px;
+            background: rgba(30, 30, 46, 0.5);
+            border-radius: 50%;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(79, 195, 247, 0.3);
+            box-shadow: 0 0 20px rgba(79, 195, 247, 0.2);
+        }
+        
+        .transition-center-content h3 {
+            color: #4fc3f7;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .transition-center-content p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        /* 转化路径样式 */
         .transition-path {
             position: absolute;
-            height: 4px;
             background: linear-gradient(to right, #00bcd4, #f44336);
             border-radius: 2px;
             box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+            z-index: 4;
+        }
+		.transition-path1 {
+            position: absolute;
+            background: linear-gradient(to top, #00bcd4, #f44336);
+            border-radius: 2px;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+            z-index: 4;
         }
         
         .transition-arrow {
@@ -134,6 +208,7 @@
             border-right: 4px solid #ffeb3b;
             border-bottom: 4px solid #ffeb3b;
             transform: rotate(-45deg);
+            z-index: 6;
         }
         
         .transition-label {
@@ -146,6 +221,8 @@
             max-width: 250px;
             font-size: 0.95rem;
             line-height: 1.5;
+            z-index: 7;
+            text-align: center;
         }
         
         .transition-label strong {
@@ -194,7 +271,7 @@
         }
         
         .key-points {
-            max-width: 800px;
+            max-width: 900px;
             margin: 40px auto;
             background: rgba(30, 30, 46, 0.7);
             border-radius: 15px;
@@ -223,16 +300,73 @@
             font-size: 1.5rem;
         }
         
+        /* 顶部路径区域 */
+        .top-transition {
+            grid-column: 2;
+            grid-row: 1;
+            position: relative;
+            z-index: 5;
+        }
+        
+        /* 右侧路径区域 */
+        .right-transition {
+            grid-column: 3;
+            grid-row: 2;
+            position: relative;
+            z-index: 5;
+        }
+        
+        /* 底部路径区域 */
+        .bottom-transition {
+            grid-column: 2;
+            grid-row: 3;
+            position: relative;
+            z-index: 5;
+        }
+        
         @media (max-width: 1000px) {
             .states-container {
-                grid-template-columns: repeat(2, 1fr);
+                height: 1000px;
+                gap: 30px;
+            }
+            
+            .transition-label {
+                font-size: 0.85rem;
+                padding: 8px 12px;
+            }
+            
+            .transition-center-content {
+                width: 150px;
+                height: 150px;
             }
         }
         
-        @media (max-width: 600px) {
+        @media (max-width: 800px) {
             .states-container {
-                grid-template-columns: 1fr;
+                display: flex;
+                flex-direction: column;
+                height: auto;
+                gap: 40px;
             }
+            
+            .transition-path, .transition-arrow, .transition-label, 
+            .top-transition, .right-transition, .bottom-transition,
+            .transition-center {
+                display: none;
+            }
+            
+            .state-card {
+                height: auto;
+                max-width: 100%;
+            }
+        }
+		
+		footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #bbd8ff;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
@@ -248,8 +382,29 @@
                 <div class="state-icon">❄️</div>
                 <div class="temperature">温度：&lt; 0°C</div>
                 <div class="state-desc">
-                    <p>分子热运动动能小于分子间相互作用势能，分子被束缚在固定位置，具有规则的晶体结构。</p>
+                      <p>分子热运动动能小于分子间相互作用势能，分子被束缚在固定位置，具有规则的晶体结构。</p>
                     <p><strong>能量关系：</strong> E<sub>动能</sub> &lt; E<sub>势能</sub></p>
+                </div>
+            </div>
+            
+            <!-- 顶部转化区域 -->
+            <div class="top-transition">
+                <!-- 固态 → 液态 -->
+                <div class="transition-path" style="width: 350px; height: 4px; top: 50%; left: 0px;"></div>
+                <div class="transition-arrow" style="top: 50%; left: 50%; margin-top: -8px;"></div>
+                <div class="transition-label" style="top: 0%; left: 30%;">
+                    熔化（Melting）<br>
+                    <strong>温度 &gt; 0°C</strong><br>
+                    <div class="energy-trend up-trend">吸收能量 ↑</div>
+                </div>
+                
+                <!-- 液态 → 固态 -->
+                <div class="transition-path" style="width: 350px; height: 4px; top: 60%; left: 0px; transform: rotate(0deg);"></div>
+                <div class="transition-arrow" style="top: 60%; left: 50%; margin-top: -8px; transform: rotate(135deg);"></div>
+                <div class="transition-label" style="top: 70%; left: 30%;">
+                    凝固（Freezing）<br>
+                    <strong>温度 &lt; 0°C</strong><br>
+                    <div class="energy-trend down-trend">释放能量 ↓</div>
                 </div>
             </div>
             
@@ -259,8 +414,37 @@
                 <div class="state-icon">💧</div>
                 <div class="temperature">温度：0°C - 100°C</div>
                 <div class="state-desc">
-                    <p>分子热运动动能与分子间相互作用势能相当，分子可相对自由移动，但受表面束缚能约束，有明显表面。</p>
+                     <p>分子热运动动能与分子间相互作用势能相当，分子可相对自由移动，但受表面束缚能约束，有明显表面。</p>
                     <p><strong>能量关系：</strong> E<sub>动能</sub> ≈ E<sub>势能</sub></p>
+                </div>
+            </div>
+            
+            <!-- 右侧转化区域 -->
+            <div class="right-transition">
+                <!-- 液态 → 气态 -->
+                <div class="transition-path1" style="width: 4px; height: 330px; top: 0%; left: 60%; transform: rotate(180deg);"></div>
+                <div class="transition-arrow" style="top: 50%; left: 60%; margin-left: -8px; transform: rotate(45deg);"></div>
+                <div class="transition-label" style="top: 30%; right: -50px;">
+                    气化（Vaporization）<br>
+                    <strong>温度 &gt; 100°C</strong><br>
+                    <div class="energy-trend up-trend">吸收能量 ↑↑</div>
+                </div>
+                
+                <!-- 气态 → 液态 -->
+                <div class="transition-path1" style="width: 4px; height: 330px; top: 0%; left: 50%; transform: rotate(180deg);"></div>
+                <div class="transition-arrow" style="top: 50%; left: 50%; margin-left: -8px; transform: rotate(225deg);"></div>
+                <div class="transition-label" style="top: 30%; left: -30px;">
+                    凝结（Condensation）<br>
+                    <strong>温度 &lt; 100°C</strong><br>
+                    <div class="energy-trend down-trend">释放能量 ↓↓</div>
+                </div>
+            </div>
+            
+            <!-- 中心区域 -->
+            <div class="transition-center">
+                <div class="transition-center-content">
+                    <h3>物质状态转化</h3>
+                    <p>温度与能量变化驱动物态转化</p>
                 </div>
             </div>
             
@@ -275,74 +459,36 @@
                 </div>
             </div>
             
+            <!-- 底部转化区域 -->
+            <div class="bottom-transition">
+                <!-- 气态 → 等离子体态 -->
+                <div class="transition-path" style="width: 350px; height: 4px; top: 50%; left: 0px; transform: rotate(180deg);"></div>
+                <div class="transition-arrow" style="top: 50%; left: 50%; margin-top: -8px;"></div>
+                <div class="transition-label" style="top: 0%; left: 30%;">
+                    电离（Ionization）<br>
+                    <strong>温度 &gt; 3,000°C</strong><br>
+                    <div class="energy-trend up-trend">吸收能量 ↑↑↑</div>
+                </div>
+                
+                <!-- 等离子体态 → 气态 -->
+                <div class="transition-path" style="width: 350px; height: 4px; top: 60%; left: 0px; transform: rotate(180deg);"></div>
+                <div class="transition-arrow" style="top: 60%; left: 50%; margin-top: -8px; transform: rotate(135deg);"></div>
+                <div class="transition-label" style="top: 70%; left: 25%;">
+                    复合（Recombination）<br>
+                    <strong>温度降低</strong><br>
+                    <div class="energy-trend down-trend">释放能量 ↓↓↓</div>
+                </div>
+            </div>
+            
             <!-- 等离子体态 -->
             <div class="state-card plasma">
                 <h2 class="state-title">等离子体态</h2>
                 <div class="state-icon">⚡</div>
                 <div class="temperature">温度：&gt; 3,000°C</div>
                 <div class="state-desc">
-                    <p>原子热运动动能足以电离原子，形成电子、正离子、负离子和中性粒子的混合物。长程电磁力起主导作用。</p>
+                   <p>原子热运动动能足以电离原子，形成电子、正离子、负离子和中性粒子的混合物。长程电磁力起主导作用。</p>
                     <p><strong>能量关系：</strong> E<sub>动能</sub> ≥ E<sub>电离</sub></p>
                 </div>
-            </div>
-        </div>
-        
-        <!-- 转化路径图 -->
-        <div class="transitions">
-            <!-- 固态 → 液态 -->
-            <div class="transition-path" style="width: 60%; top: 220px; left: 20%;"></div>
-            <div class="transition-arrow" style="top: 217px; left: 56%;"></div>
-            <div class="transition-label" style="top: 180px; left: 30%;">
-                熔化（Melting）<br>
-                <strong>温度 &gt; 0°C</strong><br>
-                <div class="energy-trend up-trend">能量吸收 ↑</div>
-            </div>
-            
-            <!-- 液态 → 固态 -->
-            <div class="transition-path" style="width: 60%; top: 260px; left: 20%; transform: rotate(180deg);"></div>
-            <div class="transition-arrow" style="top: 263px; left: 30%; transform: rotate(135deg);"></div>
-            <div class="transition-label" style="top: 280px; left: 30%;">
-                凝固（Freezing）<br>
-                <strong>温度 &lt; 0°C</strong><br>
-                <div class="energy-trend down-trend">能量释放 ↓</div>
-            </div>
-            
-            <!-- 液态 → 气态 -->
-            <div class="transition-path" style="width: 60%; top: 160px; left: 20%;"></div>
-            <div class="transition-arrow" style="top: 157px; left: 56%;"></div>
-            <div class="transition-label" style="top: 100px; left: 30%;">
-                气化（Vaporization）<br>
-                <strong>温度 &gt; 100°C</strong><br>
-                克服作用势垒与表面束缚能<br>
-                <div class="energy-trend up-trend">能量吸收 ↑↑</div>
-            </div>
-            
-            <!-- 气态 → 液态 -->
-            <div class="transition-path" style="width: 60%; top: 160px; left: 20%; transform: rotate(180deg);"></div>
-            <div class="transition-arrow" style="top: 163px; left: 30%; transform: rotate(135deg);"></div>
-            <div class="transition-label" style="top: 130px; left: 60%;">
-                凝结（Condensation）<br>
-                <strong>温度 &lt; 100°C</strong><br>
-                <div class="energy-trend down-trend">能量释放 ↓↓</div>
-            </div>
-            
-            <!-- 气态 → 等离子体态 -->
-            <div class="transition-path" style="width: 60%; top: 220px; left: 20%;"></div>
-            <div class="transition-arrow" style="top: 217px; left: 56%;"></div>
-            <div class="transition-label" style="top: 180px; left: 60%;">
-                电离（Ionization）<br>
-                <strong>温度 &gt; 3,000°C</strong><br>
-                克服原子电离能<br>
-                <div class="energy-trend up-trend">能量吸收 ↑↑↑</div>
-            </div>
-            
-            <!-- 等离子体态 → 气态 -->
-            <div class="transition-path" style="width: 60%; top: 260px; left: 20%; transform: rotate(180deg);"></div>
-            <div class="transition-arrow" style="top: 263px; left: 30%; transform: rotate(135deg);"></div>
-            <div class="transition-label" style="top: 280px; left: 60%;">
-                复合（Recombination）<br>
-                <strong>温度降低</strong><br>
-                <div class="energy-trend down-trend">能量释放 ↓↓↓</div>
             </div>
         </div>
         
@@ -384,5 +530,11 @@
             <div class="point"><strong>特别说明</strong>：所有转化均发生在1个大气压（1 atm）条件下。分子分解成原子的过程（约1,500-2,500°C）仍属气态，不视为独立的物态变化。</div>
         </div>
     </div>
+	
+	</div><footer>
+            <p>物理原理图解 | 等离子体物理 | 设计理念：通过可视化增强概念理解</p>
+            <p>© 2025 物理可视化设计 | Designed by MA with Deepseek</p>
+    </footer></div>
+	
 </body>
 </html>
