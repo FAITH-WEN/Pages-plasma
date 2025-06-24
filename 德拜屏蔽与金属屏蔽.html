@@ -62,7 +62,7 @@
         }
 
         .concept-explanation {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto 40px;
             background: rgba(25, 40, 80, 0.7);
             padding: 25px;
@@ -162,6 +162,18 @@
 
         .positive-ion-color {
             background: radial-gradient(circle, #ff5555, #cc0000);
+        }
+		
+		.external-charge-color {
+            background: radial-gradient(circle, #ff5555, #cc0000);
+        }
+
+        .electron-color {
+            background: radial-gradient(circle, #55aaff, #0066cc);
+        }
+
+        .positive-ion-color {
+            background: radial-gradient(circle, #ffaa44, #ff8800);
         }
 
         .explanation {
@@ -297,16 +309,11 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <div class="header-content">
-                <h1>等离子体德拜屏蔽原理</h1>
-                <p class="subtitle">图示解释与金属静电屏蔽的类比说明</p>
-            </div>
-        </header>
 
         <div class="concept-explanation">
-            <h3 class="explanation-title">基本概念介绍</h3>
-            <p><span class="key-term">德拜屏蔽(Debye Shielding)</span>是等离子体物理学中的一个基本概念，描述了当带电粒子引入等离子体时，周围粒子如何重新分布以屏蔽其电场。德拜长度λ<sub>D</sub>是描述这种屏蔽效果的关键参数。</p>
+			<h3 class="explanation-title">等离子体德拜屏蔽原理</h3>
+            <p><span class="key-term">德拜屏蔽(Debye Shielding)</span>是等离子体物理学中的一个基本概念，描述了当带电粒子引入等离子体时，周围粒子如何重新分布以屏蔽其电场。<br>
+			德拜长度λ<sub>D</sub>是描述这种屏蔽效果的关键参数。</p>
             <p>为了帮助理解这个概念，我们可以将其与<span class="key-term">金属导体对静电场的屏蔽</span>进行比较：</p>
             <p>金属中的自由电子可以自由移动，形成屏蔽层来阻挡外部电场。等离子体中也存在类似机制——轻的电子快速移动，在正离子周围聚集形成屏蔽层。</p>
         </div>
@@ -337,40 +344,44 @@
                         <li>电子（e⁻）由于质量小移动速度快，聚集在测试电荷周围</li>
                         <li>正离子受到排斥而远离测试电荷</li>
                         <li>形成"电子云"屏蔽层，即鞘层，减弱远处的电场</li>
-                        <li>屏蔽范围由<span class="key-term">德拜长度λ<sub>D</sub></span>决定，即德拜球：</li>
+                        <li>屏蔽范围，即德拜球，由<span class="key-term">德拜长度λ<sub>D</sub></span>决定：</li>
                     </ul>
                     <div class="equation">
                         λ<sub>D</sub> = √(ε₀kT / n<sub>e</sub>e²)
                     </div>
-                    <p>其中：ε₀ - 真空介电常数, k - 玻尔兹曼常数, T - 温度, n<sub>e</sub> - 电子密度, e - 电子电荷。</p>
+                    <p>其中：ε₀ - 真空介电常数, k - 玻尔兹曼常数, T - 温度, n<sub>e</sub> - 电子密度, e - 电子电荷量。</p>
                 </div>
             </div>
 
             <div class="section">
-                <h2 class="section-title">金属静电屏蔽</h2>
+                <h2 class="section-title">金属表面静电屏蔽</h2>
                 <div class="diagram-container">
                     <canvas id="metalCanvas" width="500" height="300"></canvas>
                 </div>
                 <div class="legend">
                     <div class="legend-item">
-                        <div class="legend-color test-charge-color"></div>
-                        <span>内部电荷 (+Q)</span>
+                        <div class="legend-color external-charge-color"></div>
+                        <span>外部电荷 (+Q)</span>
                     </div>
                     <div class="legend-item">
                         <div class="legend-color electron-color"></div>
                         <span>自由电子</span>
                     </div>
+                    <div class="legend-item">
+                        <div class="legend-color positive-ion-color"></div>
+                        <span>正电荷区</span>
+                    </div>
                 </div>
                 <div class="explanation">
-                    <p>在金属导体中放入一个正电荷（+Q）时：</p>
+                    <p>外部存在正电荷（+Q）时金属的响应：</p>
                     <ul class="feature-list">
-                        <li>自由电子在电场作用下重新分布</li>
-                        <li>电子被吸引到正电荷附近的内表面</li>
-                        <li>形成等效的负电荷层实现完全屏蔽</li>
-                        <li>金属腔体外的区域不受内部电荷影响</li>
+                        <li>自由电子在金属内部重新分布</li>
+                        <li>在正对正电荷的表面，电子聚集形成屏蔽层</li>
+                        <li>在另一侧面形成等效正电荷区</li>
+                        <li>导体内部电场完全抵消为零</li>
                     </ul>
                     <p><span class="key-term">金属屏蔽是完全的</span>，而等离子体屏蔽是统计性的，受德拜长度限制。</p>
-                    <p>金属的屏蔽效果基于导体内电荷的瞬时重新分布，响应时间极短。</p>
+                    <p>金属的屏蔽效果基于导体内电荷的瞬时重新分布，响应时间极短，由导体电导率决定。</p>
                 </div>
             </div>
         </div>
@@ -379,7 +390,7 @@
             <div class="analogy-card">
                 <h3 class="analogy-title">等离子体与金属屏蔽的相似性</h3>
                 <ul class="feature-list">
-                    <li>两者都包含可以自由移动的电荷载体（电子）</li>
+                    <li>都涉及自由电荷在电场作用下的重新分布</li>
                     <li>在扰动电荷附近都形成屏蔽电荷层</li>
                     <li>屏蔽效果在源附近最强，随距离衰减</li>
                     <li>屏蔽长度取决于电荷密度（德拜长度 vs 趋肤深度）</li>
@@ -392,10 +403,10 @@
                 <h3 class="analogy-title">等离子体与金属屏蔽的差异</h3>
                 <ul class="feature-list">
                     <li><span class="key-term">等离子体屏蔽</span>是统计性、非完全的；<span class="key-term">金属屏蔽</span>是完全的</li>
-                    <li>金属屏蔽是瞬时的；等离子体屏蔽需要时间建立</li>
-                    <li>金属只有电子移动；等离子体中离子也参与</li>
+                    <li>金属屏蔽是瞬时的（飞秒级）；等离子体屏蔽需要时间建立</li>
+                    <li>金属有晶格约束电荷，只有电子移动；等离子体中所有粒子都可自由移动</li>
                     <li>金属有固定的边界；等离子体边界模糊</li>
-                    <li>等离子体屏蔽依赖于温度；金属屏蔽与温度无关</li>
+                    <li>金属屏蔽与温度无关；等离子体屏蔽依赖于温度</li>
                 </ul>
                 <div class="equation">
                     等离子体屏蔽时间：τ ≈ λ<sub>D</sub>/v<sub>th</sub>
@@ -414,10 +425,11 @@
                     <ul class="feature-list">
                         <li><span class="key-term">机制：</span>热运动驱动的电荷重新分布</li>
                         <li><span class="key-term">屏蔽范围：</span>德拜长度λ<sub>D</sub></li>
-                        <li><span class="key-term">屏蔽程度：</span>不完全，存在残余场</li>
+                        <li><span class="key-term">屏蔽程度：</span>不完全屏蔽，存在残余场</li>
                         <li><span class="key-term">响应时间：</span>毫秒-微秒量级</li>
-                        <li><span class="key-term">电场衰减：</span>∝ e⁻ʳ/λ_D / r</li>
+                        <li><span class="key-term">电场分布：</span>∝ e⁻ʳ/λ<sub>D<sub> / r</li>
                         <li><span class="key-term">适用性：</span>弱耦合等离子体</li>
+						<li><span class="key-term">应用：</span>聚变反应、空间等离子体</li>
                     </ul>
                 </div>
                 
@@ -426,10 +438,11 @@
                     <ul class="feature-list">
                         <li><span class="key-term">机制：</span>漂移驱动的电子重新分布</li>
                         <li><span class="key-term">屏蔽范围：</span>整个导体</li>
-                        <li><span class="key-term">屏蔽程度：</span>完全(理想导体)</li>
+                        <li><span class="key-term">屏蔽程度：</span>完全屏蔽(理想导体)</li>
                         <li><span class="key-term">响应时间：</span>飞秒量级</li>
-                        <li><span class="key-term">电场衰减：</span>腔内电场=0</li>
+                        <li><span class="key-term">电场分布：</span>导体内部电场E=0</li>
                         <li><span class="key-term">适用性：</span>所有良导体</li>
+						<li><span class="key-term">应用：</span>法拉第笼、电磁屏蔽室</li>
                     </ul>
                 </div>
             </div>
@@ -457,7 +470,7 @@
 
         <footer>
             <p>物理原理图解 | 等离子体物理与电磁学 | 设计理念：通过可视化增强概念理解</p>
-            <p>© 2023 物理可视化设计 | 金属屏蔽 ↔ 等离子体德拜屏蔽原理类比</p>
+            <p>© 2025 物理可视化设计 | Designed by MA with Deepseek</p>
         </footer>
     </div>
 
@@ -588,7 +601,7 @@
             ctx.fillText("被排斥的正离子", width/2, height/2 + 140);
         }
         
-        // 绘制金属屏蔽图
+        // 绘制金属屏蔽外部电场图
         function drawMetalDiagram() {
             const canvas = document.getElementById('metalCanvas');
             const ctx = canvas.getContext('2d');
@@ -598,15 +611,25 @@
             // 清空画布
             ctx.clearRect(0, 0, width, height);
             
-            // 绘制金属区域
-            const padding = 40;
+            // 背景渐变
+            const bgGradient = ctx.createLinearGradient(0, 0, width, height);
+            bgGradient.addColorStop(0, 'rgba(20, 30, 70, 0.4)');
+            bgGradient.addColorStop(1, 'rgba(10, 20, 50, 0.6)');
+            ctx.fillStyle = bgGradient;
+            ctx.fillRect(0, 0, width, height);
+            
+            // 绘制金属导体（矩形）
+            const padding = 100;
             const metalX = padding;
-            const metalY = padding;
-            const metalWidth = width - padding*2;
-            const metalHeight = height - padding*2;
+            const metalY = 80;
+            const metalWidth = width - padding * 2;
+            const metalHeight = height - 160;
             
             // 金属背景
-            ctx.fillStyle = 'rgba(100, 120, 180, 0.2)';
+            const metalGradient = ctx.createLinearGradient(0, metalY, 0, metalY + metalHeight);
+            metalGradient.addColorStop(0, 'rgba(120, 130, 180, 0.4)');
+            metalGradient.addColorStop(1, 'rgba(80, 90, 150, 0.6)');
+            ctx.fillStyle = metalGradient;
             ctx.fillRect(metalX, metalY, metalWidth, metalHeight);
             
             // 金属边框
@@ -614,121 +637,124 @@
             ctx.lineWidth = 3;
             ctx.strokeRect(metalX, metalY, metalWidth, metalHeight);
             
-            // 内部文本
-            ctx.font = "bold 14px Arial";
-            ctx.fillStyle = "#7ff";
-            ctx.textAlign = "center";
-            ctx.fillText("金属导体", width/2, height/2 - 70);
-            ctx.fillText("内部无电场", width/2, height/2);
-            
-            // 绘制内部电荷
+            // 绘制内部无电场区域
+            ctx.fillStyle = 'rgba(100, 200, 255, 0.1)';
             ctx.beginPath();
-            ctx.arc(width/2, height/2, 25, 0, Math.PI * 2);
-            const chargeGradient = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, 25);
-            chargeGradient.addColorStop(0, '#ffcc00');
-            chargeGradient.addColorStop(1, '#ff9900');
-            ctx.fillStyle = chargeGradient;
+            ctx.roundRect(metalX + 15, metalY + 15, metalWidth - 30, metalHeight - 30, 15);
             ctx.fill();
-            ctx.strokeStyle = 'rgba(255, 220, 50, 0.8)';
-            ctx.lineWidth = 2;
-            ctx.stroke();
             
-            // 添加电荷符号
-            ctx.font = "bold 18px Arial";
-            ctx.fillStyle = "#000";
+            // 绘制内部无电场标签
+            ctx.font = "bold 20px Arial";
+            ctx.fillStyle = "#aaffaa";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            ctx.fillText("+", width/2, height/2);
+            ctx.fillText("内部电场 E = 0", width/2, height/2);
             
-            // 绘制金属表面的电子
-            const numElectrons = 24;
-            for (let i = 0; i < numElectrons; i++) {
-                let x, y;
+            // 绘制外部正电荷（左侧）
+            const chargeX = metalX - 60;
+            const chargeY = height/2;
+            
+            ctx.beginPath();
+            ctx.arc(chargeX, chargeY, 25, 0, Math.PI * 2);
+            const chargeGradient = ctx.createRadialGradient(chargeX, chargeY, 0, chargeX, chargeY, 25);
+            chargeGradient.addColorStop(0, '#ff5555');
+            chargeGradient.addColorStop(1, '#cc0000');
+            ctx.fillStyle = chargeGradient;
+            ctx.fill();
+            
+            // 电荷符号
+            ctx.font = "bold 18px Arial";
+            ctx.fillStyle = "#fff";
+            ctx.fillText("+", chargeX, chargeY);
+            
+            // 添加电荷标签
+            ctx.font = "bold 14px Arial";
+            ctx.fillStyle = "#ffaaaa";
+            ctx.fillText("外部正电荷", chargeX, chargeY + 40);
+            
+            // 绘制金属表面电子（左侧密集）
+            for (let i = 0; i < 20; i++) {
+                const x = metalX + 10;
+                const y = metalY + 20 + i * ((metalHeight - 40) / 19);
                 
-                // 分布在四个边
-                if (i < 6) {
-                    // 上边
-                    x = metalX + metalWidth/(numElectrons/4)*i + 15;
-                    y = metalY + 5;
-                } else if (i < 12) {
-                    // 右边
-                    x = metalX + metalWidth - 5;
-                    y = metalY + metalHeight/(numElectrons/4)*(i-6) + 15;
-                } else if (i < 18) {
-                    // 下边
-                    x = metalX + metalWidth - metalWidth/(numElectrons/4)*(i-12) - 15;
-                    y = metalY + metalHeight - 5;
-                } else {
-                    // 左边
-                    x = metalX + 5;
-                    y = metalY + metalHeight - metalHeight/(numElectrons/4)*(i-18) - 15;
-                }
-                
-                // 绘制电子
                 ctx.beginPath();
-                ctx.arc(x, y, 8, 0, Math.PI * 2);
-                const electronGradient = ctx.createRadialGradient(x, y, 0, x, y, 8);
-                electronGradient.addColorStop(0, "#5ac");
+                ctx.arc(x, y, 6, 0, Math.PI * 2);
+                const electronGradient = ctx.createRadialGradient(x, y, 0, x, y, 6);
+                electronGradient.addColorStop(0, "#55aaff");
                 electronGradient.addColorStop(1, "#0066cc");
                 ctx.fillStyle = electronGradient;
                 ctx.fill();
                 
-                // 绘制电子符号
-                ctx.font = "bold 10px Arial";
+                // 电子符号
+                ctx.font = "bold 8px Arial";
                 ctx.fillStyle = "#fff";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
                 ctx.fillText("-", x, y);
+            }
+            
+            // 绘制金属表面等效正电荷区（右侧）
+            ctx.fillStyle = 'rgba(255, 150, 100, 0.2)';
+            ctx.beginPath();
+            ctx.roundRect(metalX + metalWidth - 15, metalY + 15, 10, metalHeight - 30, 5);
+            ctx.fill();
+            
+            // 添加等效正电荷符号
+            ctx.font = "bold 14px Arial";
+            ctx.fillStyle = "#ffaa88";
+            ctx.textAlign = "center";
+            for (let i = 0; i < 3; i++) {
+                ctx.fillText("+", metalX + metalWidth - 10, metalY + 40 + i * 40);
+            }
+            
+            // 绘制电场线
+            for (let i = 0; i < 4; i++) {
+                const startY = metalY + 10 + i * 40;
+                const startX = chargeX + 35;
+                const endX = metalX;
                 
-                // 绘制从电子指向电荷的虚线
+                // 外部电场线（正电荷到金属表面）
                 ctx.beginPath();
-                ctx.moveTo(x, y);
-                ctx.lineTo(width/2, height/2);
-                ctx.setLineDash([3, 2]);
-                ctx.strokeStyle = 'rgba(100, 160, 255, 0.4)';
+                ctx.moveTo(startX, startY - (i-2)*5);
+                ctx.lineTo(endX, startY);
+                ctx.strokeStyle = 'rgba(255, 100, 100, 0.7)';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+				
+				// 外部电场线（正电荷到金属表面）
+                ctx.beginPath();
+                ctx.moveTo(startX+330, startY - (i-1)*10);
+                ctx.lineTo(endX+330, startY);
+                ctx.strokeStyle = 'rgba(255, 100, 100, 0.7)';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+                
+                // 电场线箭头
+                drawArrow(ctx, endX-10, startY, 2*Math.PI- (i-2)*50);
+				
+				// 电场线箭头
+                drawArrow(ctx, endX+320, startY- (i-1)*5, 2*Math.PI - (i-1)*50);
+                
+                // 内部无电场线（虚线）
+                ctx.beginPath();
+                ctx.moveTo(metalX + 5, startY);
+                ctx.lineTo(metalX + metalWidth - 5, startY);
+                ctx.setLineDash([5, 3]);
+                ctx.strokeStyle = 'rgba(100, 200, 255, 0.3)';
                 ctx.lineWidth = 1;
                 ctx.stroke();
                 ctx.setLineDash([]);
             }
             
-            // 绘制外部电场
-            const numFieldLines = 12;
-            for (let i = 0; i < numFieldLines; i++) {
-                const angle = i * (Math.PI * 2 / numFieldLines);
-                const startRadius = 50;
-                
-                const startX = width/2 + Math.cos(angle) * startRadius;
-                const startY = height/2 + Math.sin(angle) * startRadius;
-                
-                // 电场线终点（在金属边缘开始）
-                const endRadius = 150;
-                const endX = width/2 + Math.cos(angle) * endRadius;
-                const endY = height/2 + Math.sin(angle) * endRadius;
-                
-                // 绘制电场线
-                ctx.beginPath();
-                ctx.moveTo(startX, startY);
-                ctx.lineTo(endX, endY);
-                ctx.strokeStyle = 'rgba(255, 200, 100, 0.7)';
-                ctx.lineWidth = 1.5;
-                ctx.stroke();
-                
-                // 绘制箭头
-                const arrowAngle = Math.atan2(endY - height/2, endX - width/2);
-                drawArrow(ctx, endX, endY, arrowAngle);
-            }
-            
-            // 添加标签
-            ctx.font = "bold 14px Arial";
-            ctx.fillStyle = "#7ff";
-            ctx.textAlign = "center";
-            ctx.fillText("屏蔽电子", width/2, metalY - 10);
-            ctx.fillText("外部电场", width/2, metalY + metalHeight + 20);
+            // 添加金属标签
+            ctx.font = "bold 16px Arial";
+            ctx.fillStyle = "#7fdbff";
+            ctx.fillText("金属导体", metalX + metalWidth/2, metalY - 20);
+            ctx.fillText("表面屏蔽电子层", metalX + 40, metalY + 20);
+            ctx.fillText("等效正电荷区", metalX + metalWidth - 40, metalY + 20);
         }
         
         // 绘制箭头
         function drawArrow(ctx, x, y, angle) {
-            const arrowLength = 8;
+            const arrowLength = 10;
             ctx.save();
             ctx.translate(x, y);
             ctx.rotate(angle);
